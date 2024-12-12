@@ -1,0 +1,42 @@
+.config-container {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  /* Reduce padding to prevent overflow */
+  padding: 1.5rem;
+}
+
+.config-title {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.config-editor {
+  width: 100%;
+  min-height: 400px;
+  box-sizing: border-box;
+  padding: 1.5rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+  border: none;
+  border-radius: 12px;
+  background-color: var(--background);
+  color: var(--primary);
+  box-shadow: 
+    inset 5px 5px 10px var(--shadow-dark),
+    inset -5px -5px 10px var(--shadow-light);
+  /* Ensure no horizontal overflow */
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.config-error {
+  color: var(--accent);
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: rgba(216, 49, 91, 0.1);
+}

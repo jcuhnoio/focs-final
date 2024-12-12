@@ -12,26 +12,76 @@
     padding: 2rem;
     background-color: var(--background);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .config-column {
+    border-radius: 16px;
+    background-color: var(--background);
+    box-shadow: 
+      8px 8px 16px var(--shadow-dark),
+      -8px -8px 16px var(--shadow-light);
+    /* Ensure proper containment */
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
   }
   
+  .columns-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .visualization-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .controls-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .controls-container {
+    padding: 1.5rem;
+    border-radius: 16px;
+    background-color: var(--background);
+    box-shadow: 
+      8px 8px 16px var(--shadow-dark),
+      -8px -8px 16px var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .tape-container {
+    width: 100%;
+  }
+
   .title {
     color: var(--primary);
     text-align: center;
-    margin-bottom: 2rem;
     font-size: 2.5rem;
     text-shadow: 2px 2px 4px var(--shadow-dark);
   }
   
   .input-section {
+    /* Removed margin-bottom */
     display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
+    align-items: center;
   }
   
   .input-group {
     display: flex;
     align-items: center;
     gap: 1rem;
+    width: 100%;
   }
   
   .input-group label {
@@ -46,7 +96,7 @@
     background-color: var(--background);
     color: var(--primary);
     font-size: 1rem;
-    width: 200px;
+    flex: 1;
     box-shadow: 
       inset 5px 5px 10px var(--shadow-dark),
       inset -5px -5px 10px var(--shadow-light);
@@ -93,32 +143,46 @@
   
   .control-panel {
     display: flex;
-    justify-content: center;
+    align-items: center;
     gap: 1rem;
-    margin: 2rem 0;
+    width: 100%;
+  }
+
+  .playback-controls {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .action-button {
+    padding: 12px 24px;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .playback-button {
+    flex: 1;
+    min-width: 45px;
+    align-items: center;
+    justify-content: center;
   }
   
   .speed-control {
     display: flex;
     align-items: center;
+    gap: 1rem;
     justify-content: center;
-    margin-top: 2rem;
-    color: var(--primary);
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .speed-control label {
-    min-width: 60px; /* Fixed width for label */
-    margin-right: 1rem;
+    /* Removed margin-top */
   }
   
   .neumorphic-slider {
     -webkit-appearance: none;
-    width: 300px;
+    width: 100%;
     height: 10px;
     border-radius: 5px;
     background: var(--background);
@@ -133,7 +197,7 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: var(--secondary);
+    background: var(--accent);
     cursor: pointer;
     box-shadow: 
       5px 5px 10px var(--shadow-dark),

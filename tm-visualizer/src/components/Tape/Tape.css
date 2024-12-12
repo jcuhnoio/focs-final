@@ -6,7 +6,7 @@
     padding: 20px;
     background-color: var(--background);
     border-radius: 15px;
-    margin: 20px;
+    margin-bottom: 20px;
     box-shadow: 
       20px 20px 60px var(--shadow-dark),
       -20px -20px 60px var(--shadow-light);
@@ -30,7 +30,7 @@
 }
 
 .cell.active {
-    background: var(--secondary);
+    background: var(--accent);
     color: var(--background);
     box-shadow: 
       inset 5px 5px 10px var(--shadow-dark),

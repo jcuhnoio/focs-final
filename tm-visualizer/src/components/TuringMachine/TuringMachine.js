@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Tape from "../Tape/Tape";
 import TuringMachineClass from "./TuringMachineClass";
+import TuringMachineConfig from "../TuringMachineConfig/TuringMachineConfig";
 import "./TuringMachine.css";
 import { PlayCircle, PauseCircle, RotateCcw, StepBack, StepForward } from "lucide-react";
 
@@ -179,80 +180,99 @@ function TuringMachine() {
     }
   };
 
+  const handleConfigChange = (newConfig) => {
+    TM.current = new TuringMachineClass(newConfig, inputValue, config);
+    resetMachine();
+  };
+  
+
   return (
     <div className="turing-container">
       <h1 className="title">Turing Machine Visualizer</h1>
       
-      <div className="input-section">
-        <div className="input-group">
-          <label htmlFor="tape-input">Tape Input:</label>
-          <input
-            id="tape-input"
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            className="neumorphic-input"
-            placeholder="Enter tape input..."
+      <div className="tape-container">
+        <Tape tape={tape} headPosition={headPosition} />
+      </div>
+      
+      <div className="columns-container">
+        <div className="config-column">
+          <TuringMachineConfig 
+            onConfigChange={handleConfigChange}
+            initialConfig={machine}
           />
-          <button 
-            className="neumorphic-button"
-            onClick={loadInput}
-          >
-            Load
-          </button>
+        </div>
+        
+        <div className="controls-column">
+          <div className="controls-container">
+            <div className="input-group">
+              <input
+                id="tape-input"
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                className="neumorphic-input"
+                placeholder="Tape Input"
+              />
+              <button 
+                className="neumorphic-button action-button"
+                onClick={loadInput}
+              >
+                Load
+              </button>
+            </div>
+
+            <div className="control-panel">
+              <div className="playback-controls">
+                <button 
+                  className="neumorphic-button playback-button"
+                  onClick={() => handleStep("backward")}
+                  disabled={history.length === 0 || isPlaying}
+                >
+                  <StepBack />
+                </button>
+
+                <button 
+                  className="neumorphic-button playback-button"
+                  onClick={togglePlayback}
+                  disabled={machineState === "accepted" || machineState === "rejected"}
+                >
+                  {isPlaying ? <PauseCircle /> : <PlayCircle />}
+                </button>
+
+                <button 
+                  className="neumorphic-button playback-button"
+                  onClick={() => handleStep("forward")}
+                  disabled={isPlaying || machineState === "accepted" || machineState === "rejected"}
+                >
+                  <StepForward />
+                </button>
+              </div>
+
+              <button 
+                className="neumorphic-button action-button"
+                onClick={resetMachine}
+              >
+                <RotateCcw /> Reset
+              </button>
+            </div>
+
+            <div className="speed-control">
+              <input
+                id="speed-slider"
+                type="range"
+                min="0.5"
+                max="10"
+                step="0.5"
+                value={speed}
+                onChange={(e) => setSpeed(Number(e.target.value))}
+                className="neumorphic-slider"
+              />
+              <span className="speed-value">{speed} steps/s</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      <Tape tape={tape} headPosition={headPosition} />
       
-      <div className="control-panel">
-        <button 
-          className="neumorphic-button"
-          onClick={() => handleStep("backward")}
-          disabled={history.length === 0 || isPlaying}
-        >
-          <StepBack />
-        </button>
-
-        <button 
-          className="neumorphic-button play-button"
-          onClick={togglePlayback}
-          disabled={machineState === "accepted" || machineState === "rejected"}
-        >
-          {isPlaying ? <PauseCircle /> : <PlayCircle />}
-        </button>
-
-        <button 
-          className="neumorphic-button"
-          onClick={() => handleStep("forward")}
-          disabled={isPlaying || machineState === "accepted" || machineState === "rejected"}
-        >
-          <StepForward />
-        </button>
-
-        <button 
-          className="neumorphic-button"
-          onClick={resetMachine}
-        >
-          <RotateCcw /> Reset
-        </button>
-      </div>
-
-      <div className="speed-control">
-        <label htmlFor="speed-slider">Speed:</label>
-        <input
-          id="speed-slider"
-          type="range"
-          min="1"
-          max="10"
-          step="0.25"
-          value={speed}
-          onChange={(e) => setSpeed(Number(e.target.value))}
-          className="neumorphic-slider"
-        />
-        <span className="speed-value">{speed} steps/s</span>
-      </div>
-
       {machineState === "rejected" && (
         <div className="rejection-animation">
           <span className="frowny">☹️</span>
