@@ -1,0 +1,172 @@
+:root {
+    --primary: #0A2463;
+    --secondary: #3E92CC;
+    --background: #FFFAFF;
+    --accent: #D8315B;
+    --dark: #1E1B18;
+    --shadow-dark: rgba(10, 36, 99, 0.15);
+    --shadow-light: rgba(255, 250, 255, 0.7);
+  }
+  
+  .turing-container {
+    padding: 2rem;
+    background-color: var(--background);
+    min-height: 100vh;
+  }
+  
+  .title {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px var(--shadow-dark);
+  }
+  
+  .input-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .input-group label {
+    color: var(--primary);
+    font-weight: 600;
+  }
+  
+  .neumorphic-input {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--background);
+    color: var(--primary);
+    font-size: 1rem;
+    width: 200px;
+    box-shadow: 
+      inset 5px 5px 10px var(--shadow-dark),
+      inset -5px -5px 10px var(--shadow-light);
+  }
+  
+  .neumorphic-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--background);
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 
+      5px 5px 15px var(--shadow-dark),
+      -5px -5px 15px var(--shadow-light);
+  }
+  
+  .neumorphic-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 
+      8px 8px 20px var(--shadow-dark),
+      -8px -8px 20px var(--shadow-light);
+  }
+  
+  .neumorphic-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 
+      inset 5px 5px 10px var(--shadow-dark),
+      inset -5px -5px 10px var(--shadow-light);
+  }
+  
+  .neumorphic-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: 
+      inset 3px 3px 7px var(--shadow-dark),
+      inset -3px -3px 7px var(--shadow-light);
+  }
+  
+  .control-panel {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .speed-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    color: var(--primary);
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .speed-control label {
+    min-width: 60px; /* Fixed width for label */
+    margin-right: 1rem;
+  }
+  
+  .neumorphic-slider {
+    -webkit-appearance: none;
+    width: 300px;
+    height: 10px;
+    border-radius: 5px;
+    background: var(--background);
+    box-shadow: 
+      inset 5px 5px 10px var(--shadow-dark),
+      inset -5px -5px 10px var(--shadow-light);
+    margin: 0 1rem; /* Add fixed margins */
+  }
+  
+  .neumorphic-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--secondary);
+    cursor: pointer;
+    box-shadow: 
+      5px 5px 10px var(--shadow-dark),
+      -5px -5px 10px var(--shadow-light);
+  }
+  
+  .speed-value {
+    min-width: 100px; /* Fixed width for value display */
+    text-align: left;
+    color: var(--primary);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums; /* Use monospace numbers */
+  }
+  
+  .rejection-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fadeOut 2s forwards;
+  }
+  
+  .frowny {
+    font-size: 100px;
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  
+  .play-button {
+    min-width: 100px;
+    align-items: center;
+    justify-content: center;
+  }
