@@ -1,0 +1,75 @@
+.state-viewer {
+    padding: 1.5rem;
+    border-radius: 16px;
+    background-color: var(--background);
+    box-shadow: 
+      8px 8px 16px var(--shadow-dark),
+      -8px -8px 16px var(--shadow-light);
+    transition: all 0.3s ease;
+  }
+  
+  .state-viewer.accepted {
+    background-color: rgba(0, 255, 0, 0.05);
+    box-shadow: 
+      8px 8px 16px rgba(0, 128, 0, 0.1),
+      -8px -8px 16px rgba(255, 255, 255, 0.8);
+  }
+  
+  .state-viewer.rejected {
+    background-color: rgba(255, 0, 0, 0.05);
+    box-shadow: 
+      8px 8px 16px rgba(128, 0, 0, 0.1),
+      -8px -8px 16px rgba(255, 255, 255, 0.8);
+  }
+  
+  .viewer-title {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .state-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: var(--background);
+    box-shadow: 
+      inset 3px 3px 6px var(--shadow-dark),
+      inset -3px -3px 6px var(--shadow-light);
+  }
+  
+  .info-label {
+    color: var(--primary);
+    font-weight: 600;
+  }
+  
+  .info-value {
+    font-family: monospace;
+    color: var(--secondary);
+    font-size: 1.1rem;
+  }
+  
+  .state-message {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+  
+  .accepted .state-message {
+    color: #008000;
+  }
+  
+  .rejected .state-message {
+    color: #800000;
+  }

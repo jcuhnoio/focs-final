@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Tape from "../Tape/Tape";
 import TuringMachineClass from "./TuringMachineClass";
 import TuringMachineConfig from "../TuringMachineConfig/TuringMachineConfig";
+import StateViewer from '../StateViewer/StateViewer';
 import "./TuringMachine.css";
 import { PlayCircle, PauseCircle, RotateCcw, StepBack, StepForward } from "lucide-react";
 
@@ -270,6 +271,14 @@ function TuringMachine() {
               <span className="speed-value">{speed} steps/s</span>
             </div>
           </div>
+
+          <StateViewer 
+            currentState={config.state}
+            tape={tape}
+            headPosition={headPosition}
+            machine={machine}
+            machineState={machineState}
+          />
         </div>
       </div>
       
