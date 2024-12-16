@@ -10,7 +10,7 @@ function TuringMachine() {
   const [tape, setTape] = useState([]);
   const [config, setConfig] = useState({});
   const [headPosition, setHeadPosition] = useState(0);
-  const [inputValue, setInputValue] = useState("aaabbb");
+  const [inputValue, setInputValue] = useState("aaabbb");  // Set default value
   const [history, setHistory] = useState([]);
   const [machineState, setMachineState] = useState("initial");
   const [isPlaying, setIsPlaying] = useState(false);
@@ -46,8 +46,13 @@ function TuringMachine() {
   };
 
   useEffect(() => {
-    TM.current = new TuringMachineClass(machine, inputValue, config);
-    resetMachine();
+    // Initialize with default input
+    const defaultInput = "aaabbb";
+    TM.current = new TuringMachineClass(machine, defaultInput, config);
+    const startResult = TM.current.startTM(machine, defaultInput);
+    setTape(startResult.tape);
+    setConfig(startResult);
+    setInputValue(defaultInput);
   }, []);
 
   const resetMachine = () => {
@@ -55,12 +60,12 @@ function TuringMachine() {
       clearInterval(playbackRef.current);
     }
     
-    // Use TM.current's machine configuration instead of the initial machine
     const currentMachine = TM.current.machine;
-    console.log("Resetting with machine:", currentMachine);
+    // Use current inputValue or default to empty string
+    const currentInput = inputValue || "";
     
-    TM.current = new TuringMachineClass(currentMachine, inputValue, {});
-    const startResult = TM.current.startTM(currentMachine, inputValue);
+    TM.current = new TuringMachineClass(currentMachine, currentInput, {});
+    const startResult = TM.current.startTM(currentMachine, currentInput);
     setTape(startResult.tape);
     setConfig(startResult);
     setHeadPosition(0);

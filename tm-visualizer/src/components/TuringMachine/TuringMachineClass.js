@@ -6,9 +6,12 @@ class TuringMachineClass {
   }
 
   startTM(machine, input) {
+    // Handle empty or undefined input
+    const tapeArray = input ? input.split("") : ["_"];
+    
     return {
       state: machine.start,
-      tape: input.split(""),
+      tape: tapeArray,
       head: 0,
     };
   }

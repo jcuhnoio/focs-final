@@ -8,20 +8,22 @@ const PlaybackControls = ({
     onInputLoad,
     machineState,
     historyLength,
-    defaultInput
+    defaultInput = "aaabbb"  // Add default value
   }) => {
-  const [inputValue, setInputValue] = useState(defaultInput);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [speed, setSpeed] = useState(1);
-  const playbackRef = useRef(null);
-
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const loadInput = () => {
-    onInputLoad(inputValue);
-  };
+    const [inputValue, setInputValue] = useState(defaultInput);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [speed, setSpeed] = useState(1);
+    const playbackRef = useRef(null);
+  
+    const handleInputChange = (e) => {
+      setInputValue(e.target.value);
+    };
+  
+    const loadInput = () => {
+      // If input is empty or undefined, use an empty array
+      const input = inputValue?.trim() || "";
+      onInputLoad(input);
+    };
 
   const startPlayback = useCallback(() => {
     const intervalTime = 1000 / speed;
