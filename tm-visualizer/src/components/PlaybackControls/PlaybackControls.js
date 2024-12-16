@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PlayCircle, PauseCircle, RotateCcw, StepBack, StepForward } from "lucide-react";
 import './PlaybackControls.css';
 
-const PlaybackControls = ({ 
+const PlaybackControls = ({
     onStep, 
     onReset, 
     onInputLoad,
@@ -83,7 +83,7 @@ const PlaybackControls = ({
           placeholder="Tape Input"
         />
         <button 
-          className="neumorphic-button action-button"
+          className="controls-button action-button"
           onClick={loadInput}
         >
           Load
@@ -93,7 +93,7 @@ const PlaybackControls = ({
       <div className="control-panel">
         <div className="playback-controls">
           <button 
-            className="neumorphic-button playback-button"
+            className="controls-button playback-button"
             onClick={() => onStep("backward")}
             disabled={historyLength === 0 || isPlaying}
           >
@@ -101,7 +101,7 @@ const PlaybackControls = ({
           </button>
 
           <button 
-            className="neumorphic-button playback-button"
+            className="controls-button playback-button"
             onClick={togglePlayback}
             disabled={machineState === "accepted" || machineState === "rejected"}
           >
@@ -109,7 +109,7 @@ const PlaybackControls = ({
           </button>
 
           <button 
-            className="neumorphic-button playback-button"
+            className="controls-button playback-button"
             onClick={() => onStep("forward")}
             disabled={isPlaying || machineState === "accepted" || machineState === "rejected"}
           >
@@ -118,7 +118,7 @@ const PlaybackControls = ({
         </div>
 
         <button 
-          className="neumorphic-button action-button"
+          className="controls-button action-button"
           onClick={onReset}
         >
           <RotateCcw /> Reset
@@ -129,14 +129,13 @@ const PlaybackControls = ({
         <input
           id="speed-slider"
           type="range"
-          min="0.5"
-          max="10"
-          step="0.5"
+          min="1"
+          max="15"
+          step="0.05"
           value={speed}
           onChange={(e) => setSpeed(Number(e.target.value))}
           className="neumorphic-slider"
         />
-        <span className="speed-value">{speed} steps/s</span>
       </div>
     </div>
   );

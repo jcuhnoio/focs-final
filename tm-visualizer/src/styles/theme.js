@@ -9,8 +9,8 @@ export const defaultTheme = {
   
   export const generateNeumorphicStyles = (color) => ({
     backgroundColor: color,
-    boxShadow: `20px 20px 60px ${adjustColor(color, -15)},
-                 -20px -20px 60px ${adjustColor(color, 15)}`,
+    boxShadow: `4px 4px 6.5px ${adjustColor(color, -15)},
+                 -4px -4px 6.5px ${adjustColor(color, 15)}`,
   });
   
   // Utility function to darken/lighten colors

@@ -1,7 +1,7 @@
 :root {
     --primary: #0A2463;
     --secondary: #3E92CC;
-    --background: #FFFAFF;
+    --background: #ECF0F3;
     --accent: #D8315B;
     --dark: #1E1B18;
     --shadow-dark: rgba(10, 36, 99, 0.15);
@@ -20,8 +20,8 @@
     border-radius: 16px;
     background-color: var(--background);
     box-shadow: 
-      8px 8px 16px var(--shadow-dark),
-      -8px -8px 16px var(--shadow-light);
+      4px 4px 6.5px var(--shadow-dark),
+      -4px -4px 6.5px var(--shadow-light);
     /* Ensure proper containment */
     box-sizing: border-box;
     overflow: hidden;
@@ -53,8 +53,8 @@
     border-radius: 16px;
     background-color: var(--background);
     box-shadow: 
-      8px 8px 16px var(--shadow-dark),
-      -8px -8px 16px var(--shadow-light);
+      4px 4px 6.5px var(--shadow-dark),
+      -4px -4px 6.5px var(--shadow-light);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -82,24 +82,6 @@
     align-items: center;
     gap: 1rem;
     width: 100%;
-  }
-  
-  .input-group label {
-    color: var(--primary);
-    font-weight: 600;
-  }
-  
-  .neumorphic-input {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 12px;
-    background-color: var(--background);
-    color: var(--primary);
-    font-size: 1rem;
-    flex: 1;
-    box-shadow: 
-      inset 5px 5px 10px var(--shadow-dark),
-      inset -5px -5px 10px var(--shadow-light);
   }
   
   .neumorphic-button {
@@ -178,38 +160,6 @@
     gap: 1rem;
     justify-content: center;
     /* Removed margin-top */
-  }
-  
-  .neumorphic-slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 10px;
-    border-radius: 5px;
-    background: var(--background);
-    box-shadow: 
-      inset 5px 5px 10px var(--shadow-dark),
-      inset -5px -5px 10px var(--shadow-light);
-    margin: 0 1rem; /* Add fixed margins */
-  }
-  
-  .neumorphic-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--accent);
-    cursor: pointer;
-    box-shadow: 
-      5px 5px 10px var(--shadow-dark),
-      -5px -5px 10px var(--shadow-light);
-  }
-  
-  .speed-value {
-    min-width: 100px; /* Fixed width for value display */
-    text-align: left;
-    color: var(--primary);
-    font-weight: 600;
-    font-variant-numeric: tabular-nums; /* Use monospace numbers */
   }
   
   .rejection-animation {

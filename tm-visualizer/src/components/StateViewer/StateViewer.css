@@ -3,47 +3,82 @@
     border-radius: 16px;
     background-color: var(--background);
     box-shadow: 
-      8px 8px 16px var(--shadow-dark),
-      -8px -8px 16px var(--shadow-light);
-    transition: all 0.3s ease;
+      4px 4px 6.5px var(--shadow-dark),
+      -4px -4px 6.5px var(--shadow-light);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: monospace;
     font-size: 1.1rem;
     line-height: 1.5;
-    color: var(--secondary);
-  }
-  
-  .state-viewer.accepted {
-    background-color: rgba(0, 255, 0, 0.05);
-    box-shadow: 
-      8px 8px 16px rgba(0, 128, 0, 0.1),
-      -8px -8px 16px rgba(255, 255, 255, 0.8);
-  }
-  
-  .state-viewer.rejected {
-    background-color: rgba(255, 0, 0, 0.05);
-    box-shadow: 
-      8px 8px 16px rgba(128, 0, 0, 0.1),
-      -8px -8px 16px rgba(255, 255, 255, 0.8);
-  }
-  
-  .info-label {
+    color: var(--accent);
+}
+
+.info-label {
     color: var(--primary);
     font-weight: 600;
     margin-right: 0.5rem;
-  }
-  
-  .state-message {
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    color: var(--primary);
-  }
-  
-  .accepted .state-message {
-    color: #008000;
-  }
-  
-  .rejected .state-message {
-    color: #800000;
-  }
+}
+
+.state-viewer.transitioning:not(.reversing) {
+    box-shadow: 0 0 0 transparent;
+    transform: translateY(2px);
+}
+
+.state-viewer.transitioning.reversing {
+    box-shadow: 
+      4px 4px 6.5px var(--shadow-dark),
+      -4px -4px 6.5px var(--shadow-light);
+    transform: translateY(0);
+}
+
+.state-viewer.transitioning:not(.reversing) .state-content {
+    opacity: 0;
+}
+
+.state-viewer.transitioning.reversing .state-content {
+    opacity: 1;
+}
+
+.state-viewer.final-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.state-viewer.final-state.transitioning:not(.reversing) {
+    box-shadow: 0 0 0 transparent;
+    transform: translateY(2px);
+}
+
+.state-viewer.final-state:not(.transitioning):not(.reversing) {
+    box-shadow: 
+        inset 4px 4px 6.5px var(--shadow-dark),
+        inset -4px -4px 6.5px var(--shadow-light);
+    transform: translateY(4px);
+}
+
+.state-viewer.final-state.reversing {
+    box-shadow: 0 0 0 transparent;
+    transform: translateY(2px);
+}
+
+.neumorphic-text {
+    font-size: 9rem;
+    font-weight: bold;
+    color: var(--background);
+    text-shadow: 
+        -4px -4px 4px var(--shadow-light),
+        4px 4px 4px var(--shadow-dark);
+    transition: text-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.state-content {
+    transition: opacity 0.3s ease;
+}
+
+
+.state-viewer.final-state.reversing .neumorphic-text {
+    text-shadow: 0 0 0 transparent;
+}

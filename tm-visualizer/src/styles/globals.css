@@ -13,8 +13,8 @@
     --accent-rgb: 9, 132, 227;
     
     /* Neumorphic shadows */
-    --shadow-dark: rgba(0, 0, 0, 0.15);
-    --shadow-light: rgba(255, 255, 255, 0.85);
+    --shadow-dark: #D1D9E6
+    --shadow-light: #FFFFFF
     
     /* Status colors */
     --success: #00b894;
