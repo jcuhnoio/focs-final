@@ -1,9 +1,8 @@
 class TuringMachineClass {
   constructor(machine, input, config) {
-    this.machine = machine; // Store the machine configuration
+    this.machine = machine;
     this.input = input;
     this.config = config;
-    console.log("TM Class initialized with machine:", machine);
   }
 
   startTM(machine, input) {
@@ -37,15 +36,11 @@ class TuringMachineClass {
       config.head = 0;
     }
   
-    // Process transitions
+    // Find valid transitions
     for (const transition of machine.delta) {
-      const [currentState, readSymbol, nextState, writeSymbol, moveDirection] =
-        transition;
+      const [currentState, readSymbol, nextState, writeSymbol, moveDirection] = transition;
   
-      if (
-        currentState === config.state &&
-        readSymbol === currentTape[config.head]
-      ) {
+      if (currentState === config.state && readSymbol === currentTape[config.head]) {
         const newTape = [...currentTape];
         newTape[config.head] = writeSymbol;
   
@@ -60,16 +55,14 @@ class TuringMachineClass {
       }
     }
   
-    // If no valid transitions, return reject state
+    // If no valid transitions found, return reject state with current tape
     if (results.length === 0) {
-      this.printConfig(results.config)
-      return [
-        {
-          state: machine.reject,
-          tape: currentTape,
-          head: config.head + 1, // Arbitrary move for reject
-        },
-      ];
+      return [{
+        state: machine.reject,
+        tape: currentTape,
+        head: config.head,
+        moveDir: 0  // No movement since we're rejecting
+      }];
     }
   
     return results;
@@ -82,4 +75,4 @@ class TuringMachineClass {
   }
 }
 
-export default TuringMachineClass
+export default TuringMachineClass;

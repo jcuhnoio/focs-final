@@ -72,7 +72,6 @@
   }
   
   .input-section {
-    /* Removed margin-bottom */
     display: flex;
     align-items: center;
   }

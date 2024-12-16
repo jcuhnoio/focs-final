@@ -1,15 +1,48 @@
 .config-container {
-  height: 100%;
-  width: 100%;
+  height: auto;
+  width: auto;
   box-sizing: border-box;
-  /* Reduce padding to prevent overflow */
   padding: 1.5rem;
+  padding-bottom: 0rem;
+}
+
+.config-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 
+    8px 8px 20px var(--shadow-dark),
+    -8px -8px 20px var(--shadow-light);
+}
+
+.config-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 
+    inset 5px 5px 10px var(--shadow-dark),
+    inset -5px -5px 10px var(--shadow-light);
+}
+
+.config-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: 
+    inset 3px 3px 7px var(--shadow-dark),
+    inset -3px -3px 7px var(--shadow-light);
+}
+
+.config-buttons {
+  width: auto;
+  padding: 1.5rem;
+  flex-direction: row;
+  display: flex;
+  gap: 1rem;
+  align-items: left;
+  margin: auto;
+  padding-left: 0rem;
 }
 
 .config-title {
   color: var(--primary);
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-top: auto;
 }
 
 .config-editor {
@@ -39,4 +72,23 @@
   padding: 0.5rem;
   border-radius: 8px;
   background-color: rgba(216, 49, 91, 0.1);
+}
+
+.config-button {
+  width: auto;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  background-color: var(--background);
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 
+    5px 5px 15px var(--shadow-dark),
+    -5px -5px 15px var(--shadow-light);
 }

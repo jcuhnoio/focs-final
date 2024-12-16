@@ -1,11 +1,9 @@
-// components/TuringMachineConfig/TuringMachineConfig.js
 import React, { useState } from 'react';
 import './TuringMachineConfig.css';
 
 const TuringMachineConfig = ({ onConfigChange, initialConfig }) => {
   const [configText, setConfigText] = useState(formatConfig(initialConfig));
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
   const [currentConfig, setCurrentConfig] = useState(initialConfig);
 
   // Custom stringification for the config
@@ -60,7 +58,6 @@ const TuringMachineConfig = ({ onConfigChange, initialConfig }) => {
   const loadConfig = () => {
     try {
       setError(null);
-      setSuccessMessage(null);
   
       // Convert tuples to arrays before parsing
       const convertedConfig = convertTuplesToArrays(configText);
@@ -85,8 +82,6 @@ const TuringMachineConfig = ({ onConfigChange, initialConfig }) => {
       console.log("Step 4 - Calling onConfigChange with:", parsedConfig);
       onConfigChange(parsedConfig);
       
-      setSuccessMessage("Machine configuration loaded successfully!");
-      setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
       setError(`Configuration error: ${err.message}`);
     }
@@ -161,7 +156,6 @@ const TuringMachineConfig = ({ onConfigChange, initialConfig }) => {
     setConfigText(e.target.value);
     // Clear messages when user starts typing
     setError(null);
-    setSuccessMessage(null);
   };
 
   const resetConfig = () => {
@@ -169,26 +163,11 @@ const TuringMachineConfig = ({ onConfigChange, initialConfig }) => {
     setCurrentConfig(initialConfig);
     onConfigChange(initialConfig);
     setError(null);
-    setSuccessMessage("Configuration reset to initial machine");
-    setTimeout(() => setSuccessMessage(null), 3000);
   };
 
   return (
     <div className="config-container">
       <h2 className="config-title">Machine Configuration</h2>
-      <div className="config-instructions">
-        <p>Format your machine configuration with the following fields:</p>
-        <ul>
-          <li>states: array of state numbers</li>
-          <li>alphabet: array of input symbols</li>
-          <li>tape_alphabet: array of tape symbols</li>
-          <li>start: starting state number</li>
-          <li>accept: accepting state number</li>
-          <li>reject: rejecting state number</li>
-          <li>delta: array of transitions as tuples (currentState, readSymbol, nextState, writeSymbol, moveDirection)</li>
-        </ul>
-        <p className="config-example">Example transition: (1, 'a', 2, 'X', 1)</p>
-      </div>
       <textarea
         className="config-editor"
         value={configText}
@@ -198,20 +177,19 @@ const TuringMachineConfig = ({ onConfigChange, initialConfig }) => {
       />
       <div className="config-buttons">
         <button
-          className="config-button load-button"
+          className="config-button"
           onClick={loadConfig}
         >
           Load Configuration
         </button>
         <button
-          className="config-button reset-button"
+          className="config-button"
           onClick={resetConfig}
         >
           Reset to Initial
         </button>
       </div>
       {error && <div className="config-error">{error}</div>}
-      {successMessage && <div className="config-success">{successMessage}</div>}
     </div>
   );
 };
