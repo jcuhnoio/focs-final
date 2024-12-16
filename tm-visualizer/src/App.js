@@ -1,13 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 import TuringMachine from './components/TuringMachine/TuringMachine';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <TuringMachine></TuringMachine>
+    <div className="app">
+      <h1 className="title">Turing Machine Visualizer</h1>
+      <TuringMachine />
     </div>
   );
-}
+};
 
 export default App;

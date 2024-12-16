@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Tape from "../Tape/Tape";
 import TuringMachineClass from "./TuringMachineClass";
 import TuringMachineConfig from "../TuringMachineConfig/TuringMachineConfig";
 import StateViewer from '../StateViewer/StateViewer';
+import PlaybackControls from '../PlaybackControls/PlaybackControls';
 import "./TuringMachine.css";
-import { PlayCircle, PauseCircle, RotateCcw, StepBack, StepForward } from "lucide-react";
 
 function TuringMachine() {
   const [tape, setTape] = useState([]);
@@ -12,16 +12,11 @@ function TuringMachine() {
   const [headPosition, setHeadPosition] = useState(0);
   const [inputValue, setInputValue] = useState("aaabbb");
   const [history, setHistory] = useState([]);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [machineState, setMachineState] = useState("initial");
-  const [speed, setSpeed] = useState(1); // Now represents steps per second
-  const playbackRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  
   const TM = useRef(null);
-
-  useEffect(() => {
-    TM.current = new TuringMachineClass(machine, inputValue, config);
-    resetMachine();
-  }, []);
+  const playbackRef = useRef(null);
 
   const machine = {
     states: [1, 2, 3, 4, 777, 666],
@@ -50,12 +45,22 @@ function TuringMachine() {
     ],
   };
 
+  useEffect(() => {
+    TM.current = new TuringMachineClass(machine, inputValue, config);
+    resetMachine();
+  }, []);
+
   const resetMachine = () => {
     if (playbackRef.current) {
       clearInterval(playbackRef.current);
     }
-    TM.current = new TuringMachineClass(machine, inputValue, {});
-    const startResult = TM.current.startTM(machine, inputValue);
+    
+    // Use TM.current's machine configuration instead of the initial machine
+    const currentMachine = TM.current.machine;
+    console.log("Resetting with machine:", currentMachine);
+    
+    TM.current = new TuringMachineClass(currentMachine, inputValue, {});
+    const startResult = TM.current.startTM(currentMachine, inputValue);
     setTape(startResult.tape);
     setConfig(startResult);
     setHeadPosition(0);
@@ -64,110 +69,22 @@ function TuringMachine() {
     setIsPlaying(false);
   };
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const loadInput = () => {
-    resetMachine();
-  };
-
-  const handleStep = useCallback((direction = "forward") => {
-    if (direction === "forward" && machineState !== "accepted" && machineState !== "rejected") {
-      try {
-        const stepResult = TM.current.stepTM(machine, config);
-        if (stepResult.length > 0) {
-          const result = stepResult[0];
-          setHistory(prev => [...prev, { tape, config, headPosition }]);
-          setTape(result.tape);
-          setConfig(result);
-          
-          if (result.moveDir === 1) {
-            moveHead("R");
-          } else {
-            moveHead("L");
-          }
-
-          if (TM.current.isAcceptTM(machine, result)) {
-            setMachineState("accepted");
-            window.confetti({
-              particleCount: 100,
-              spread: 70,
-              origin: { y: 0.6 }
-            });
-            stopPlayback();
-            return false;
-          } else if (TM.current.isDoneTM(machine, result)) {
-            setMachineState("rejected");
-            stopPlayback();
-            return false;
-          }
-          return true;
-        }
-      } catch (error) {
-        console.error("Step error:", error);
-        stopPlayback();
-        return false;
-      }
-    } else if (direction === "backward" && history.length > 0) {
-      const previousState = history[history.length - 1];
-      setTape(previousState.tape);
-      setConfig(previousState.config);
-      setHeadPosition(previousState.headPosition);
-      setHistory(prev => prev.slice(0, -1));
-    }
-    return false;
-  }, [config, headPosition, history, machineState, tape]);
-
-  const startPlayback = useCallback(() => {
-    const intervalTime = 1000 / speed;
+  const handleConfigChange = (newConfig) => {
+    console.log("Step 5 - Received new config in TuringMachine:", newConfig);
+    TM.current = new TuringMachineClass(newConfig, inputValue, {});
+    console.log("Step 6 - Created new TM instance");
     
-    // Clear any existing interval
-    if (playbackRef.current) {
-      clearInterval(playbackRef.current);
-    }
+    // Force a reset with the new machine
+    const startResult = TM.current.startTM(newConfig, inputValue);
+    console.log("Step 7 - Start result:", startResult);
     
-    // Set up the interval for continuous stepping
-    playbackRef.current = setInterval(() => {
-      const shouldContinue = handleStep("forward");
-      if (!shouldContinue) {
-        stopPlayback();
-      }
-    }, intervalTime);
-  }, [speed, handleStep]);
-
-  const stopPlayback = useCallback(() => {
+    setTape(startResult.tape);
+    setConfig(startResult);
+    setHeadPosition(0);
+    setHistory([]);
+    setMachineState("initial");
     setIsPlaying(false);
-    if (playbackRef.current) {
-      clearInterval(playbackRef.current);
-      playbackRef.current = null;
-    }
-  }, []);
-
-  const togglePlayback = useCallback(() => {
-    if (!isPlaying) {
-      setIsPlaying(true);
-      startPlayback();
-    } else {
-      stopPlayback();
-    }
-  }, [isPlaying, startPlayback, stopPlayback]);
-
-  // Handle speed changes
-  useEffect(() => {
-    if (isPlaying) {
-      startPlayback();
-    }
-  }, [speed, isPlaying, startPlayback]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (playbackRef.current) {
-        clearInterval(playbackRef.current);
-      }
-    };
-  }, []);
+  };
 
   const moveHead = (direction) => {
     if (direction === "L" && headPosition === 0) {
@@ -181,16 +98,63 @@ function TuringMachine() {
     }
   };
 
-  const handleConfigChange = (newConfig) => {
-    TM.current = new TuringMachineClass(newConfig, inputValue, config);
-    resetMachine();
+  const handleStep = (direction = "forward") => {
+    if (direction === "forward" && machineState !== "accepted" && machineState !== "rejected") {
+      try {
+        const stepResult = TM.current.stepTM(TM.current.machine, config);
+        if (stepResult.length > 0) {
+          const result = stepResult[0];
+          setHistory(prev => [...prev, { tape, config, headPosition }]);
+          setTape(result.tape);
+          setConfig(result);
+          
+          if (result.moveDir === 1) {
+            moveHead("R");
+          } else {
+            moveHead("L");
+          }
+
+          if (TM.current.isAcceptTM(TM.current.machine, result)) {
+            setMachineState("accepted");
+            window.confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.6 }
+            });
+            return false;
+          } else if (TM.current.isDoneTM(TM.current.machine, result)) {
+            setMachineState("rejected");
+            return false;
+          }
+          return true;
+        }
+      } catch (error) {
+        console.error("Step error:", error);
+        return false;
+      }
+    } else if (direction === "backward" && history.length > 0) {
+      const previousState = history[history.length - 1];
+      setTape(previousState.tape);
+      setConfig(previousState.config);
+      setHeadPosition(previousState.headPosition);
+      setHistory(prev => prev.slice(0, -1));
+    }
+    return false;
   };
-  
+
+  const handleInputLoad = (newInput) => {
+    setInputValue(newInput);
+    TM.current = new TuringMachineClass(TM.current.machine, newInput, {});
+    const startResult = TM.current.startTM(TM.current.machine, newInput);
+    setTape(startResult.tape);
+    setConfig(startResult);
+    setHeadPosition(0);
+    setHistory([]);
+    setMachineState("initial");
+  };
 
   return (
     <div className="turing-container">
-      <h1 className="title">Turing Machine Visualizer</h1>
-      
       <div className="tape-container">
         <Tape tape={tape} headPosition={headPosition} />
       </div>
@@ -204,79 +168,22 @@ function TuringMachine() {
         </div>
         
         <div className="controls-column">
-          <div className="controls-container">
-            <div className="input-group">
-              <input
-                id="tape-input"
-                type="text"
-                value={inputValue}
-                onChange={handleInputChange}
-                className="neumorphic-input"
-                placeholder="Tape Input"
-              />
-              <button 
-                className="neumorphic-button action-button"
-                onClick={loadInput}
-              >
-                Load
-              </button>
-            </div>
-
-            <div className="control-panel">
-              <div className="playback-controls">
-                <button 
-                  className="neumorphic-button playback-button"
-                  onClick={() => handleStep("backward")}
-                  disabled={history.length === 0 || isPlaying}
-                >
-                  <StepBack />
-                </button>
-
-                <button 
-                  className="neumorphic-button playback-button"
-                  onClick={togglePlayback}
-                  disabled={machineState === "accepted" || machineState === "rejected"}
-                >
-                  {isPlaying ? <PauseCircle /> : <PlayCircle />}
-                </button>
-
-                <button 
-                  className="neumorphic-button playback-button"
-                  onClick={() => handleStep("forward")}
-                  disabled={isPlaying || machineState === "accepted" || machineState === "rejected"}
-                >
-                  <StepForward />
-                </button>
-              </div>
-
-              <button 
-                className="neumorphic-button action-button"
-                onClick={resetMachine}
-              >
-                <RotateCcw /> Reset
-              </button>
-            </div>
-
-            <div className="speed-control">
-              <input
-                id="speed-slider"
-                type="range"
-                min="0.5"
-                max="10"
-                step="0.5"
-                value={speed}
-                onChange={(e) => setSpeed(Number(e.target.value))}
-                className="neumorphic-slider"
-              />
-              <span className="speed-value">{speed} steps/s</span>
-            </div>
-          </div>
+          <PlaybackControls
+            onStep={handleStep}
+            onReset={resetMachine}
+            onInputLoad={handleInputLoad}
+            machineState={machineState}
+            historyLength={history.length}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+            playbackRef={playbackRef}
+          />
 
           <StateViewer 
             currentState={config.state}
             tape={tape}
             headPosition={headPosition}
-            machine={machine}
+            machine={TM.current ? TM.current.machine : machine}
             machineState={machineState}
           />
         </div>

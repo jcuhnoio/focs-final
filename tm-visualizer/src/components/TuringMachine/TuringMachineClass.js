@@ -1,8 +1,9 @@
-class TuringMachineClass{
+class TuringMachineClass {
   constructor(machine, input, config) {
-    this.machine = machine;
+    this.machine = machine; // Store the machine configuration
     this.input = input;
     this.config = config;
+    console.log("TM Class initialized with machine:", machine);
   }
 
   startTM(machine, input) {
